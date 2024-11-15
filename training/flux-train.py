@@ -27,12 +27,18 @@ job_to_run = OrderedDict([
         ('process', [
             OrderedDict([
                 ('type', 'sd_trainer'),
-                ('training_folder', '/content/output'),
+                ('training_folder', '../output'),
                 ('device', 'cuda:0'),
                 ('network', OrderedDict([
                     ('type', 'lora'),
                     ('linear', args.lora_rank),
-                    ('linear_alpha', 16)
+                    ('linear_alpha', 16),
+                    ('network_kwargs', OrderedDict([
+                        ('only_if_contains', OrderedDict([
+                            ("transformer.single_transformer_blocks.7.proj_out"),
+                            ("transformer.single_transformer_blocks.20.proj_out")
+                        ]))
+                    ]))
                 ])),
                 ('save', OrderedDict([
                     ('dtype', 'float16'),
