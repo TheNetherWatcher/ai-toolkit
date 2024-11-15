@@ -35,10 +35,10 @@ job_to_run = OrderedDict([
                     ('linear', args.lora_rank),
                     ('linear_alpha', 16),
                     ('network_kwargs', OrderedDict([
-                        ('only_if_contains', OrderedDict([
+                        ('only_if_contains', [
                             "transformer.single_transformer_blocks.7.proj_out",
                             "transformer.single_transformer_blocks.20.proj_out"
-                        ]))
+                        ])
                     ]))
                 ])),
                 ('save', OrderedDict([
