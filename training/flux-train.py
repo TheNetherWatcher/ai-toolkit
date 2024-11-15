@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+sys.path.append('../ai-toolkit')
 from toolkit.job import run_job
 from collections import OrderedDict
 
