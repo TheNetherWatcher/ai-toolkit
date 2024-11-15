@@ -28,7 +28,7 @@ job_to_run = OrderedDict([
         ('process', [
             OrderedDict([
                 ('type', 'sd_trainer'),
-                ('training_folder', '../output'),
+                ('training_folder', '/home/bhara/output'),
                 ('device', 'cuda:0'),
                 ('network', OrderedDict([
                     ('type', 'lora'),
