@@ -36,8 +36,8 @@ job_to_run = OrderedDict([
                     ('linear_alpha', 16),
                     ('network_kwargs', OrderedDict([
                         ('only_if_contains', OrderedDict([
-                            ("transformer.single_transformer_blocks.7.proj_out"),
-                            ("transformer.single_transformer_blocks.20.proj_out")
+                            "transformer.single_transformer_blocks.7.proj_out",
+                            "transformer.single_transformer_blocks.20.proj_out"
                         ]))
                     ]))
                 ])),
