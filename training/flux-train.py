@@ -13,6 +13,12 @@ parser.add_argument("--lora_rank", type=int, required=True, help="Rank for LoRA 
 parser.add_argument("--batch_size", type=int, required=True, help="Batch size for training.")
 parser.add_argument("--dataset_name", type=str, required=True, help="Name of the dataset.")
 parser.add_argument("--steps", type=int, required=True, help="Number of training steps.")
+parser.add_argument("--targeted_layers", type=str, required=False, nargs='+', default=[
+    "transformer.single_transformer_blocks.7.proj_out",
+    "transformer.single_transformer_blocks.12.proj_out",
+    "transformer.single_transformer_blocks.16.proj_out",
+    "transformer.single_transformer_blocks.20.proj_out"
+], help="Targeted layers for LoRA. Provide as a space-separated list.")
 args = parser.parse_args()
 
 # Set the environment variable for HF token
@@ -20,6 +26,8 @@ os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
 os.environ["HF_TOKEN"] = args.hf_token
 
 print("HF_TOKEN environment variable has been set.")
+
+targeted_layers = args.targeted_layers
 
 job_to_run = OrderedDict([
     ('job', 'extension'),
@@ -35,10 +43,7 @@ job_to_run = OrderedDict([
                     ('linear', args.lora_rank),
                     ('linear_alpha', 16),
                     ('network_kwargs', OrderedDict([
-                        ('only_if_contains', [
-                            "transformer.single_transformer_blocks.7.proj_out",
-                            "transformer.single_transformer_blocks.20.proj_out"
-                        ])
+                        ('only_if_contains', targeted_layers)
                     ]))
                 ])),
                 ('save', OrderedDict([
