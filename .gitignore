@@ -170,6 +170,7 @@ cython_debug/
 !/config/examples
 !/config/_PUT_YOUR_CONFIGS_HERE).txt
 /output/*
+/dataset/*
 !/output/.gitkeep
 /extensions/*
 !/extensions/example
