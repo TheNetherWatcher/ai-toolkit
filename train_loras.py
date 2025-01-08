@@ -21,7 +21,7 @@ from itertools import product
 # Define your parameters
 parameters_range = {
     "STEPS": [5000, 2500],
-    "LEARNING_RATE": [1e-4, 4e-4, 1e-3],
+    "LEARNING_RATE": [4e-4, 1e-3],
     "DATASET": "og-chair-bg",
     "TRAINING_TYPE": "balanced",
     "LORA_RANK": 16,
@@ -39,7 +39,7 @@ parameters_range = {
         "The UNST chair is situated in a stylish industrial-themed cafe with exposed metal beams, raw brick walls, and a polished concrete floor. The chair’s modern black wooden frame and beige textured upholstery offer a striking yet harmonious contrast to the rugged industrial decor. Nearby, a wooden communal table with coffee cups and pastries adds to the inviting atmosphere. Edison-style hanging lights cast a warm glow, emphasizing the UNST chair as both a functional and aesthetic choice for a trendy, urban dining environment."
     ],
     "SEED": 42,
-    "SAMPLING_STEPS": 27,
+    "SAMPLING_STEPS": 28,
     "LAYERS": [
         "transformer.single_transformer_blocks.7.proj_out",
         "transformer.single_transformer_blocks.12.proj_out",
@@ -110,7 +110,7 @@ for idx, combination in enumerate(param_combinations):
                     ('save', OrderedDict([
                         ('dtype', 'float16'),
                         ('save_every', params["SAVE_EVERY"]),
-                        ('max_step_saves_to_keep', 4)
+                        ('max_step_saves_to_keep', 40000)
                     ])),
                     ('datasets', [
                         OrderedDict([
