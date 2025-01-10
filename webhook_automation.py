@@ -38,8 +38,7 @@ def create_webhook(owner, repo, webhook_url):
         "events": ["push", "pull_request"],  # Customize events as needed
         "config": {
             "url": webhook_url,
-            "content_type": "json",
-            "secret": "your_secret_key"  # Optional: Add a secret for securing payloads
+            "content_type": "json"
         }
     }
     
