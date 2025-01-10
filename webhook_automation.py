@@ -27,7 +27,7 @@ print(get_webhook_url())
 
 # # Repositories to which the webhook will be added
 REPOSITORIES = [
-    {"owner": "Unstudio-Tech", "repo": "lora-training-backend-python"},
+    {"owner": "Unstudio-Tech", "repo": "ai-toolkit"},
 ]
 
 def create_webhook(owner, repo, webhook_url):
