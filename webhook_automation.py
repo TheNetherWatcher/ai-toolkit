@@ -2,7 +2,7 @@ import subprocess
 import requests
 
 # GitHub settings
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = "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"
 GITHUB_API_URL = "https://api.github.com"
 HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
 
