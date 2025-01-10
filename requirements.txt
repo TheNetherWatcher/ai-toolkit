@@ -33,3 +33,5 @@ huggingface_hub
 peft
 gradio
 python-slugify
+fastapi
+redis
