@@ -1,8 +1,10 @@
 import subprocess
 import requests
+import os
 
-# GitHub settings
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN') 
+if not GITHUB_TOKEN:
+    raise ValueError("GITHUB_TOKEN environment variable is not set")
 GITHUB_API_URL = "https://api.github.com"
 HEADERS = {"Authorization": f"token {GITHUB_TOKEN}"}
 
@@ -11,7 +13,7 @@ def get_vm_ip():
     try:
         result = subprocess.run(["curl", "ifconfig.me"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
         vm_ip = result.stdout.strip()
-        vm_ip = vm_ip.split(" ")[0]  # Extract the first IP address
+        vm_ip = vm_ip.split(" ")[0]  # Extract the first IP address 
         return vm_ip
     except subprocess.CalledProcessError as e:
         raise Exception(f"Failed to fetch VM IP using hostname -i: {e.stderr.strip()}")
@@ -35,7 +37,7 @@ def create_webhook(owner, repo, webhook_url):
     payload = {
         "name": "web",
         "active": True,
-        "events": ["push", "pull_request"],  # Customize events as needed
+        "events": ["push", "pull_request"],
         "config": {
             "url": webhook_url,
             "content_type": "json"
@@ -47,6 +49,7 @@ def create_webhook(owner, repo, webhook_url):
     if response.status_code == 201:
         print(f"Webhook successfully created for {owner}/{repo}")
     else:
+        print(HEADERS)
         print(f"Failed to create webhook for {owner}/{repo}: {response.json()}")
 
 # Main logic

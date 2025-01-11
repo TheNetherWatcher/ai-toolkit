@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-REPO_PATH = os.path.dirname(os.path.abspath(__file__))
+REPO_PATH = os.path.dirname(os.path.abspath(_file_))
 
 def get_total_gpu_memory(gpu_index=0):
     try:

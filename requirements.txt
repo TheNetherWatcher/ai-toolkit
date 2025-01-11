@@ -35,3 +35,4 @@ gradio
 python-slugify
 fastapi
 redis
+uvicorn

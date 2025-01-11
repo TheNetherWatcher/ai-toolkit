@@ -14,6 +14,7 @@ git pull origin main
 
 # Install Python dependencies
 echo "Installing Python dependencies..."
+git submodule update --init --recursive
 pip install -r requirements.txt
 
 # Function to check if process is running
@@ -83,7 +84,7 @@ done
 echo "Deployment complete. Server log available at: $REPO_DIR/server.log"
 echo "To monitor the server, use: tail -f server.log"
 
-
+chmod +x deploy.sh
 nohup python -m uvicorn webhook_listener:app --port=8000 --host 0.0.0.0 >> webhook.log 2>&1 &
 
 echo $! > webhook.pid

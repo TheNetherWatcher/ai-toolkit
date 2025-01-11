@@ -6,7 +6,6 @@ import json
 from datetime import datetime
 import time
 
-# hello there guys
 
 class TrainingOrchestrator:
     def __init__(self):
@@ -46,7 +45,7 @@ class TrainingOrchestrator:
                 'lora_rank': job['lora_rank'],
                 'trigger_word': job['trigger_word'],
                 'caption_dropout_rate': job['caption_dropout_rate'],
-                'resolution': job['resolution'],
+                'hf_repo_id': job['huggingface_repo_id'],
             }
             
             # Only add layers_to_optimize_regex if specific_layers_trained is not empty
@@ -55,7 +54,7 @@ class TrainingOrchestrator:
 
             command = ['python', 'train.py']
             for key, value in training_params.items():
-                command.extend(['-i', f'{key}={value}'])
+                command.extend([f'--{key}={value}'])
 
             self.redis_client.hset(f"metadata_{training_id}", "status", 'started')
             
