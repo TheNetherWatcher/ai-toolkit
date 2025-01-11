@@ -5,6 +5,8 @@ import time
 import torch
 from fastapi.middleware.cors import CORSMiddleware
 
+# fed up of this shit
+
 app = FastAPI()
 
 app.add_middleware(
