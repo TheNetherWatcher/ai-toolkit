@@ -237,7 +237,7 @@ if __name__ == "__main__":
     parser.add_argument("--layer_numbers", default="'7,12,16,20'", help="Comma-separated list of layer numbers (e.g., '7,12,16,20')")
     parser.add_argument("--max_step_saves_to_keep", type=int, default=4, help="Max saved steps to keep")
     parser.add_argument("--resolution", nargs=3, type=int, default=[512, 768, 1024], help="Resolution for training")
-    parser.add_argument("--cache_latents_to_disk", action="store_true", help="Cache latents to disk")
+    parser.add_argument("--cache_latents_to_disk", type=bool, default="True", help="Cache latents to disk")
     parser.add_argument("--batch_size", type=int, default=1, help="Batch size")
     parser.add_argument("--trigger_word", type=str, default="UNST", help="Trigger word for lora training")
     parser.add_argument("--hf_repo_id", type=str, default="bb1070/trained_lora", help="huggingface repo id")
