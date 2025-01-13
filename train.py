@@ -70,12 +70,20 @@ def main(args):
     """Main function to execute the training and upload process."""
     os.environ["HF_TOKEN"] = args.hf_token
 
-    # Generate full layer paths from provided layer numbers
-    layer_numbers = [int(num.strip()) for num in args.layer_numbers.split(",")] if args.layer_numbers else []
-    base_layer_path = "transformer.single_transformer_blocks"
-    layers = [f"{base_layer_path}.{num}.proj_out" for num in layer_numbers]
+    print("-------------------")
+    print(args.layer_numbers)
+    
+    layer_numbers = []
+    layers = []
+    if args.layer_numbers and args.layer_numbers.strip():
+        layer_numbers = [int(num.strip()) for num in args.layer_numbers.split(",")]
+        base_layer_path = "transformer.single_transformer_blocks"
+        layers = [f"{base_layer_path}.{num}.proj_out" for num in layer_numbers]
 
     dataset = download_file(args.dataset_url)
+    
+    print("--------------------")
+    print(layers)
 
     # Training parameters
     params = {
@@ -89,13 +97,15 @@ def main(args):
         "sampling_prompts": args.sampling_prompts or [],
         "sampling_seed": args.sampling_seed,
         "sampling_steps": args.sampling_steps,
-        "layers": layers,
         "max_step_saves_to_keep": args.max_step_saves_to_keep,
         "resolution": args.resolution,
         "cache_latents_to_disk": args.cache_latents_to_disk,
         "batch_size": args.batch_size,
         "trigger_word":args.trigger_word,
     }
+    
+    if layers:
+        params["layers"] = layers
 
     # Generate job configuration
     lora_name = f"{args.hf_repo_id.split('/')[-1]}"

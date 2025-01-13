@@ -46,11 +46,8 @@ class TrainingOrchestrator:
                 'trigger_word': job['trigger_word'],
                 'caption_dropout_rate': job['caption_dropout_rate'],
                 'hf_repo_id': job['huggingface_repo_id'],
+                "layers_numbers": f"{','.join(map(str, job['specific_layers_trained']))}"
             }
-            
-            # Only add layers_to_optimize_regex if specific_layers_trained is not empty
-            if job.get('specific_layers_trained') and len(job['specific_layers_trained']) > 0:
-                training_params['layer_numbers'] = f"{','.join(map(str, job['specific_layers_trained']))}"
 
             command = ['python', 'train.py']
             for key, value in training_params.items():
