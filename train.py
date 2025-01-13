@@ -75,7 +75,7 @@ def main(args):
     
     layer_numbers = []
     layers = []
-    if args.layer_numbers and args.layer_numbers.strip():
+    if args.layer_numbers and args.layer_numbers.strip() and args.layer_numbers.lower() != 'none':
         layer_numbers = [int(num.strip()) for num in args.layer_numbers.split(",")]
         base_layer_path = "transformer.single_transformer_blocks"
         layers = [f"{base_layer_path}.{num}.proj_out" for num in layer_numbers]
