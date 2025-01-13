@@ -48,6 +48,9 @@ class TrainingOrchestrator:
                 'hf_repo_id': job['huggingface_repo_id'],
                 "layers_numbers": f"{','.join(map(str, job['specific_layers_trained']))}"
             }
+            
+            print("------------------")
+            print(training_params)
 
             command = ['python', 'train.py']
             for key, value in training_params.items():
