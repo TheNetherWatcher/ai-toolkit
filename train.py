@@ -10,6 +10,7 @@ from toolkit.job import run_job
 import requests
 from urllib.parse import urlparse
 import zipfile
+import shutil
 
 def get_username_from_token(hf_token):
     """Fetch the username associated with the Hugging Face token."""
@@ -70,20 +71,15 @@ def main(args):
     """Main function to execute the training and upload process."""
     os.environ["HF_TOKEN"] = args.hf_token
 
-    print("-------------------")
-    print(args.layer_numbers)
     
     layer_numbers = []
     layers = []
     if args.layer_numbers and args.layer_numbers.strip() and args.layer_numbers.lower() != 'none':
-        layer_numbers = [int(num.strip()) for num in args.layer_numbers.split(",")]
+        layer_numbers = [num.strip() for num in args.layer_numbers.split(",")] if args.layer_numbers else []
         base_layer_path = "transformer.single_transformer_blocks"
         layers = [f"{base_layer_path}.{num}.proj_out" for num in layer_numbers]
 
     dataset = download_file(args.dataset_url)
-    
-    print("--------------------")
-    print(layers)
 
     # Training parameters
     params = {
@@ -152,6 +148,7 @@ def main(args):
                         ('lr', params["learning_rate"]),
                         ('gradient_checkpointing', True),
                         ('optimizer', 'adamw8bit'),
+                        ('disable_sampling', True),
                         ('dtype', 'bf16')
                     ])),
                     ('model', OrderedDict([
@@ -211,6 +208,17 @@ def main(args):
     except Exception as e:
         print(f"Error during upload: {e}")
 
+    # Cleanup
+    print("Cleaning up temporary files...")
+    try:
+        if os.path.exists(dataset):
+            shutil.rmtree(dataset)
+        if os.path.exists(output_path):
+            shutil.rmtree(output_path)
+        print("Cleanup completed successfully.")
+    except Exception as e:
+        print(f"Error during cleanup: {e}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run LoRA training and upload results.")
@@ -220,7 +228,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_url", required=True, help="Dataset url")
     parser.add_argument("--training_type", default="lora", help="Training type (e.g., lora, lokr)")
     parser.add_argument("--lora_rank", type=int, default=16, help="LoRA rank")
-    parser.add_argument("--save_every", type=int, default=100, help="Save frequency")
+    parser.add_argument("--save_every", type=int, default=10000, help="Save frequency")
     parser.add_argument("--caption_dropout_rate", type=float, default=0.05, help="Caption dropout rate")
     parser.add_argument("--sample_every", type=int, default=10000, help="Sampling frequency")
     parser.add_argument("--sampling_prompts", nargs="*", help="Sampling prompts")
