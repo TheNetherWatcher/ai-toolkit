@@ -109,8 +109,18 @@ def main(args):
 
     # Generate job configuration
     lora_name = f"{args.hf_repo_id.split('/')[-1]}"
-
     output_path = f"{cwd}/output/{lora_name}"
+    
+    network_dict = OrderedDict([
+        ('type', params["training_type"]),
+        ('linear', params["lora_rank"]),
+        ('linear_alpha', 16),
+    ])
+    
+    # Only add network_kwargs if layers exist
+    if layers:
+        network_dict['network_kwargs'] = {'only_if_contains': layers}
+    
     job_to_run = OrderedDict([
         ('job', 'extension'),
         ('config', OrderedDict([
@@ -121,14 +131,7 @@ def main(args):
                     ('training_folder', f'{cwd}/output'),
                     ('device', 'cuda:0'),
                     ('trigger_word', params["trigger_word"]),
-                    ('network', OrderedDict([
-                        ('type', params["training_type"]),
-                        ('linear', params["lora_rank"]),
-                        ('linear_alpha', 16),
-                        ('network_kwargs', OrderedDict([
-                            ('only_if_contains', params["layers"])
-                        ])) if params["layers"] else None,
-                    ])),
+                    ('network', network_dict),
                     ('save', OrderedDict([
                         ('dtype', 'float16'),
                         ('save_every', params["save_every"]),
