@@ -46,7 +46,7 @@ class TrainingOrchestrator:
                 'trigger_word': job['trigger_word'],
                 'caption_dropout_rate': job['caption_dropout_rate'],
                 'hf_repo_id': job['huggingface_repo_id'],
-                "layers_numbers": f"{','.join(map(str, job['specific_layers_trained']))}" or "none"
+                "layer_numbers": f"{','.join(map(str, job['specific_layers_trained']))}" or "none"
             }
             
             print("------------------")
