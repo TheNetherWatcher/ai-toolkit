@@ -138,7 +138,7 @@ def main(args):
                             ('folder_path', dataset),
                             ('caption_ext', 'txt'),
                             ('caption_dropout_rate', params["caption_dropout_rate"]),
-                            ('cache_latents_to_disk', params["cache_latents_to_disk"]),
+                            ('cache_latents_to_disk', params["batch_size"]>1),
                             ('resolution', params["resolution"])
                         ])
                     ]),
