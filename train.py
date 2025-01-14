@@ -154,7 +154,7 @@ def main(args):
                     ('model', OrderedDict([
                         ('name_or_path', 'black-forest-labs/FLUX.1-dev'),
                         ('is_flux', True),
-                        ('quantize', False),
+                        ('quantize', params["batch_size"] >= 4),
                     ])),
                     ('sample', OrderedDict([
                         ('sample_every', params["sample_every"]),
